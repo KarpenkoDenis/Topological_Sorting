@@ -2,74 +2,121 @@ package com.company;
 import java.util.ArrayList;
 import java.io.*;
 
-class Vertex// Класс вершина
+class Vertex// ГЉГ«Г Г±Г± ГўГҐГ°ГёГЁГ­Г 
 {
-    char color;//Цвет ( 'g' - серый , 'b' - черный, 'w' - белый )
-    int name; // номер вершины
-    ArrayList<Edge> edg= new ArrayList<Edge>(); //Список ребер из вершины
-    Vertex(int name) // конструктор
+    char color;//Г–ГўГҐГІ ( 'g' - Г±ГҐГ°Г»Г© , 'b' - Г·ГҐГ°Г­Г»Г©, 'w' - ГЎГҐГ«Г»Г© )
+    int name; // Г­Г®Г¬ГҐГ° ГўГҐГ°ГёГЁГ­Г»
+    ArrayList<Edge> edg= new ArrayList<Edge>(); //Г‘ГЇГЁГ±Г®ГЄ Г°ГҐГЎГҐГ° ГЁГ§ ГўГҐГ°ГёГЁГ­Г»
+    Vertex(int name) // ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°
     {
-        this.color= 'w';   //Вначале у всех цвет - белый
-        this.name=name;    // Записали номер вершины
+        this.color= 'w';   //Г‚Г­Г Г·Г Г«ГҐ Гі ГўГ±ГҐГµ Г¶ГўГҐГІ - ГЎГҐГ«Г»Г©
+        this.name=name;    // Г‡Г ГЇГЁГ±Г Г«ГЁ Г­Г®Г¬ГҐГ° ГўГҐГ°ГёГЁГ­Г»
     }
 };
 
-class Edge // Класс ребро
+class Edge // ГЉГ«Г Г±Г± Г°ГҐГЎГ°Г®
 {
-    Vertex v; // В какую вершину оно идет
-    boolean used; // Ходили ли мы через него
-    Edge(Vertex v) // Конструктор
+    Vertex v; // Г‚ ГЄГ ГЄГіГѕ ГўГҐГ°ГёГЁГ­Гі Г®Г­Г® ГЁГ¤ГҐГІ
+    boolean used; // Г•Г®Г¤ГЁГ«ГЁ Г«ГЁ Г¬Г» Г·ГҐГ°ГҐГ§ Г­ГҐГЈГ®
+    Edge(Vertex v) // ГЉГ®Г­Г±ГІГ°ГіГЄГІГ®Г°
     {
         this.v = v;
         this.used=false;
     }
 };
 
-class Tree //Класс деерво
+class Tree //ГЉГ«Г Г±Г± Г¤ГҐГҐГ°ГўГ®
 {
-    ArrayList<Vertex> vertices= new ArrayList<Vertex>();  // Список вершин
-    ArrayList<Vertex> RTopSort= new ArrayList<Vertex>();     //Нужный список вершин, записанный в обратном порядке
+    ArrayList<Vertex> vertices= new ArrayList<Vertex>();  // Г‘ГЇГЁГ±Г®ГЄ ГўГҐГ°ГёГЁГ­
+    ArrayList<Vertex> RTopSort= new ArrayList<Vertex>();     //ГЌГіГ¦Г­Г»Г© Г±ГЇГЁГ±Г®ГЄ ГўГҐГ°ГёГЁГ­, Г§Г ГЇГЁГ±Г Г­Г­Г»Г© Гў Г®ГЎГ°Г ГІГ­Г®Г¬ ГЇГ®Г°ГїГ¤ГЄГҐ
 };
 
 public class TopSort
 {
-    static char White='w'; //Введем константные цвета
+    static char White='w'; //Г‚ГўГҐГ¤ГҐГ¬ ГЄГ®Г­Г±ГІГ Г­ГІГ­Г»ГҐ Г¶ГўГҐГІГ 
     static char Black='b';
     static char Gray='g';
-    static Tree tree=new Tree(); //Создадим дерево
-    static void dfs1(Vertex cur) //Поиск в глубину
+    static Tree tree=new Tree(); //Г‘Г®Г§Г¤Г Г¤ГЁГ¬ Г¤ГҐГ°ГҐГўГ®
+    static void dfs1(Vertex cur) //ГЏГ®ГЁГ±ГЄ Гў ГЈГ«ГіГЎГЁГ­Гі
     {
-        cur.color=Gray; //Красим вершину в серый
+        cur.color=Gray; //ГЉГ°Г Г±ГЁГ¬ ГўГҐГ°ГёГЁГ­Гі Гў Г±ГҐГ°Г»Г©
         for (int i = 0; i<cur.edg.size(); i++)
         {
             if (cur.edg.get(i).v.color==White)
             {
-                cur.edg.get(i).used=true;// прошли по ребру
-                dfs1(cur.edg.get(i).v);//переходим к след. вершине
+                cur.edg.get(i).used=true;// ГЇГ°Г®ГёГ«ГЁ ГЇГ® Г°ГҐГЎГ°Гі
+                dfs1(cur.edg.get(i).v);//ГЇГҐГ°ГҐГµГ®Г¤ГЁГ¬ ГЄ Г±Г«ГҐГ¤. ГўГҐГ°ГёГЁГ­ГҐ
             }
         }
-        cur.color=Black;//Вышли из вершины - покрасили в черный
-        tree.RTopSort.add(cur);//Добавили её в список
+        cur.color=Black;//Г‚Г»ГёГ«ГЁ ГЁГ§ ГўГҐГ°ГёГЁГ­Г» - ГЇГ®ГЄГ°Г Г±ГЁГ«ГЁ Гў Г·ГҐГ°Г­Г»Г©
+        tree.RTopSort.add(cur);//Г„Г®ГЎГ ГўГЁГ«ГЁ ГҐВё Гў Г±ГЇГЁГ±Г®ГЄ
     }
 
-    static void TopSort() //Топологическая сортировка
+    static void TopSort() //Г’Г®ГЇГ®Г«Г®ГЈГЁГ·ГҐГ±ГЄГ Гї Г±Г®Г°ГІГЁГ°Г®ГўГЄГ 
     {
-        tree.RTopSort.clear(); //Очистим список вершин
-        int m=0; // m -номер вершины для которой будем вызывать поиск в глубину
-        while(tree.RTopSort.size()<tree.vertices.size()) //пока все вершины не попали в нужый список
+        tree.RTopSort.clear(); //ГЋГ·ГЁГ±ГІГЁГ¬ Г±ГЇГЁГ±Г®ГЄ ГўГҐГ°ГёГЁГ­
+        int m=0; // m -Г­Г®Г¬ГҐГ° ГўГҐГ°ГёГЁГ­Г» Г¤Г«Гї ГЄГ®ГІГ®Г°Г®Г© ГЎГіГ¤ГҐГ¬ ГўГ»Г§Г»ГўГ ГІГј ГЇГ®ГЁГ±ГЄ Гў ГЈГ«ГіГЎГЁГ­Гі
+        while(tree.RTopSort.size()<tree.vertices.size()) //ГЇГ®ГЄГ  ГўГ±ГҐ ГўГҐГ°ГёГЁГ­Г» Г­ГҐ ГЇГ®ГЇГ Г«ГЁ Гў Г­ГіГ¦Г»Г© Г±ГЇГЁГ±Г®ГЄ
         {
-            if((tree.vertices.get(m).color==White)) //Если вершина не пройдена
+            if((tree.vertices.get(m).color==White)) //Г…Г±Г«ГЁ ГўГҐГ°ГёГЁГ­Г  Г­ГҐ ГЇГ°Г®Г©Г¤ГҐГ­Г 
             {
-                dfs1(tree.vertices.get(m)); // запускаем поиск в глубину
+                dfs1(tree.vertices.get(m)); // Г§Г ГЇГіГ±ГЄГ ГҐГ¬ ГЇГ®ГЁГ±ГЄ Гў ГЈГ«ГіГЎГЁГ­Гі
             }
-            else m++;//иначе переходим к следуюещей
+            else m++;//ГЁГ­Г Г·ГҐ ГЇГҐГ°ГҐГµГ®Г¤ГЁГ¬ ГЄ Г±Г«ГҐГ¤ГіГѕГҐГ№ГҐГ©
         }
     }
     public static void main(String[] args) throws IOException
     {
-     	//считываем дерево
-        TopSort(); // Делаем топологическую сортировку
+     	        BufferedReader bReader = new BufferedReader (new InputStreamReader(System.in));
+        char current;
+        tree.vertices.clear();
+        int x,y;
+        Vertex v1=null,v2=null;
+        boolean m=true;
+        boolean k=true;
+        String cStr;
+        while(k)
+        {
+            System.out.println("1- РїСЂРѕРґРѕР»Р¶РёС‚СЊ РІРІРѕРґ");
+            System.out.println("2- Р·Р°РІРµСЂС€РёС‚СЊ");
+            cStr = bReader.readLine();
+            x = Integer.parseInt(cStr);
+            if(x==2)
+            {
+                k = false;
+                break;
+            }
+            System.out.println("Р’РІРµРґРёС‚Рµ 1СЋ РІРµСЂС€РёРЅСѓ:");
+            cStr = bReader.readLine();
+            x = Integer.parseInt(cStr);
+            for (int i = 0; i < tree.vertices.size(); i++)
+                if (tree.vertices.get(i).name == x) {
+                    v1 = tree.vertices.get(i);
+                    m = false;
+                }
+            if (m) {
+                v1 = new Vertex(x);
+                tree.vertices.add(v1);
+            }
+            m = true;
+            System.out.println("Р’РІРµРґРёС‚Рµ 2СЋ РІРµСЂС€РёРЅСѓ:");
+            cStr = bReader.readLine();
+            y = Integer.parseInt(cStr);
+            for (int i = 0; i < tree.vertices.size(); i++)
+                if (tree.vertices.get(i).name == y) {
+                    v2 = tree.vertices.get(i);
+                    m = false;
+                }
+            if (m) {
+                v2 = new Vertex(y);
+                tree.vertices.add(v2);
+            }
+            m = true;
+            System.out.println("Р РµР±СЂРѕ РґРѕР±Р°РІР»РµРЅРѕ!");
+            v1.edg.add(new Edge(v2));
+        }//Г±Г·ГЁГІГ»ГўГ ГҐГ¬ Г¤ГҐГ°ГҐГўГ®
+        TopSort(); // Г„ГҐГ«Г ГҐГ¬ ГІГ®ГЇГ®Г«Г®ГЈГЁГ·ГҐГ±ГЄГіГѕ Г±Г®Г°ГІГЁГ°Г®ГўГЄГі
         for(int i=0;i<tree.RTopSort.size();i++)
-            System.out.print(tree.RTopSort.get(tree.RTopSort.size()-i-1).name); //выводим на экран все элементы нужного списка в обратном порядке
+            System.out.print(tree.RTopSort.get(tree.RTopSort.size()-i-1).name); //ГўГ»ГўГ®Г¤ГЁГ¬ Г­Г  ГЅГЄГ°Г Г­ ГўГ±ГҐ ГЅГ«ГҐГ¬ГҐГ­ГІГ» Г­ГіГ¦Г­Г®ГЈГ® Г±ГЇГЁГ±ГЄГ  Гў Г®ГЎГ°Г ГІГ­Г®Г¬ ГЇГ®Г°ГїГ¤ГЄГҐ
     }
 }
