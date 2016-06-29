@@ -73,7 +73,10 @@ class Tree //Класс деерво
 };
 public class MainClass extends QMainWindow{
     Ui_MainWindow MyWindow = new Ui_MainWindow();
-    static tree= new Tree();
+    static char White='w'; //Введем константные цвета
+    static char Black='b';
+    static char Gray='g';
+    static Tree tree=new Tree(); //Создадим дерево
     static int TREE_FIELD_X = 170;
     static int TREE_FIELD_Y = 20;
     static int arrowWidth=15;
