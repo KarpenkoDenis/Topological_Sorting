@@ -305,15 +305,21 @@ public class MainClass extends QMainWindow{
         k=false;
         MyWindow.Next.setEnabled(false);
     }
-
+static boolean Ch=true;
     static void dfs1(Vertex cur) //Поиск в глубину
     {
+        if(cur.color==Gray)
+        {
+            MyWindow.textBrowser.append("Ошибка1!");
+            Ch=false;
+            return;
+        }
         cur.color=Gray; //Красим вершину в серый
         for (int i = 0; i<cur.edg.size(); i++)
         {
-            if (cur.edg.get(i).v.color==White)
+            if (!(cur.edg.get(i).v.color==Black))
             {
-                cur.edg.get(i).used=true;// прошли по ребру
+                cur.edg.get(i).used = true;// прошли по ребру
                 dfs1(cur.edg.get(i).v);//переходим к след. вершине
             }
         }
@@ -323,6 +329,7 @@ public class MainClass extends QMainWindow{
 
     static void TopSort() //Топологическая сортировка
     {
+        Ch=true;
         tree.RTopSort.clear(); //Очистим список вершин
         int m=0; // m -номер вершины для которой будем вызывать поиск в глубину
         while(tree.RTopSort.size()<tree.vertices.size()) //пока все вершины не попали в нужый список
@@ -330,6 +337,7 @@ public class MainClass extends QMainWindow{
             if((tree.vertices.get(m).color==White)) //Если вершина не пройдена
             {
                 dfs1(tree.vertices.get(m)); // запускаем поиск в глубину
+                if(!Ch) return;
             }
             else m++;//иначе переходим к следуюещей
         }
@@ -349,7 +357,8 @@ public class MainClass extends QMainWindow{
         String str="Список отсортированных вершин: ";
         for(int i=0;i<tree.RTopSort.size();i++)
            str+=tree.RTopSort.get(tree.RTopSort.size()-i-1).name;
-        MyWindow.textBrowser.append(str);
+        if(Ch) MyWindow.textBrowser.append(str);
+        else MyWindow.textBrowser.append("Есть цикл!");
         repaint();
         Wait();
         for(int i=0;i<tree.vertices.size();i++) {
