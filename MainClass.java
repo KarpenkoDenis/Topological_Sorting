@@ -1,6 +1,3 @@
-/**
- * Created by Flame on 27.06.2016.
- */
 import com.trolltech.qt.core.QCoreApplication;
 import com.trolltech.qt.core.QPointF;
 import com.trolltech.qt.core.QRect;
@@ -27,9 +24,11 @@ class Vertex// Класс вершина
 class Edge // Класс ребро
 {
     Vertex v; // В какую вершину оно идет
+    char type; // 'n'- не использованное , 'd' - древесное , 'u' - направленное вперед , 'b' - направленное назад , 'p' - поперечное
     boolean used; // Ходили ли мы через него
     Edge(Vertex v) // Конструктор
     {
+        this.type='n';
         this.v = v;
         this.used=false;
     }
