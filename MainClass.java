@@ -159,8 +159,10 @@ class Tree //Класс деерво
         cur.color=Black;
         return true;
     }
-    void dellete_edge(int from, int to)
+      void dellete_edge(int from, int to)
     {
+
+     //   System.out.println("Попытка удалить " + from + "  " +to);
         Vertex curr_vert= null;
         for (int j = 0; j < vertices.size(); j++)
             if (vertices.get(j).name == from) {
@@ -170,20 +172,23 @@ class Tree //Класс деерво
         if(curr_vert!=null)
         {
             Vertex to_vert=null;
-            for (int j = 0; j < vertices.size(); j++)
-                if (vertices.get(j).name == from) {
-                    curr_vert = vertices.get(j);
+            int index=0;
+            for (int j = 0; j < curr_vert.edg.size(); j++) {
+                if (curr_vert.edg.get(j).v.name == to) {
+                 //   System.out.println("Сравниваем " + vertices.get(j).name +" " + to);
+                    to_vert = curr_vert.edg.get(j).v;
+                    index = j;
                     break;
                 }
-            if(to_vert == null)
+            }
+            if(to_vert == null) {
                 return;
-            curr_vert.edg.remove(to_vert);
+            }
+            curr_vert.edg.remove(index);
         }
-
-
        // vertices.add(new Vertex(x, y, name));
-
     }
+
 
 };
 
