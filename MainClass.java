@@ -305,7 +305,7 @@ public class MainClass extends QMainWindow{
         MyWindow.Next.setEnabled(false);
     }
 static boolean Ch=true;
-    static void dfs1(Vertex cur) //Поиск в глубину
+    void dfs1(Vertex cur) //Поиск в глубину
     {
         if(cur.color==Gray)
         {
@@ -318,16 +318,47 @@ static boolean Ch=true;
         {
             if (!(cur.edg.get(i).v.color==Black))
             {
+                if(cur.edg.get(i).v.color==Gray)
+                {
+                    cur.edg.get(i).type='b';
+                    cur.edg.get(i).used=true;
+                    MyWindow.textBrowser.append("Ошибка!");
+                    Ch=false;
+                    return;
+                }
                 cur.edg.get(i).used = true;// прошли по ребру
+                cur.edg.get(i).type='d'; 
                 dfs1(cur.edg.get(i).v);//переходим к след. вершине
             }
         }
+        for(int j=0;j<cur.edg.size();j++)
+        {
+            if (!cur.edg.get(j).used)
+            {
+                if (cur.edg.get(j).v.color == Gray) cur.edg.get(j).type = 'b';
+                if (cur.edg.get(j).v.color == Black)
+                {
+                    cur.edg.get(j).type = 'u';
+                }
+            }
+        }
         cur.color=Black;//Вышли из вершины - покрасили в черный
+        for(int i=0;i<tree.vertices.size();i++)
+        {
+            if(tree.vertices.get(i).color==White)
+            {
+                for (int k = 0; k < tree.vertices.get(i).edg.size(); k++)
+                    if(tree.vertices.get(i).edg.get(k).v.color == Black)
+                    {
+                        tree.vertices.get(i).edg.get(k).used=true;
+                        tree.vertices.get(i).edg.get(k).type = 'p';
+                    }
+            }
+        }
         tree.RTopSort.add(cur);//Добавили её в список
     }
-
-    static void TopSort() //Топологическая сортировка
-    {
+	  void TopSort() //Топологическая сортировка
+	   {
         Ch=true;
         tree.RTopSort.clear(); //Очистим список вершин
         int m=0; // m -номер вершины для которой будем вызывать поиск в глубину
@@ -363,7 +394,10 @@ static boolean Ch=true;
         for(int i=0;i<tree.vertices.size();i++) {
             tree.vertices.get(i).color = White;
             for (int j = 0; j < tree.vertices.get(i).edg.size(); j++)
+            {
                 tree.vertices.get(i).edg.get(j).used = false;
+                tree.vertices.get(i).edg.get(j).type = 'n';
+            }
         }
         MyWindow.step.setEnabled(true);
         MyWindow.clear.setEnabled(true);
