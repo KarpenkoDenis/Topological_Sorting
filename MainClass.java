@@ -384,6 +384,20 @@ static boolean Ch=true;
         MyWindow.clear.setEnabled(false);
         int m = 0;
         TopSort();
+        for(int i=0;i<tree.vertices.size();i++)
+            for(int j=0;j<tree.vertices.get(i).edg.size();j++)//  'u' - направленное вперед , 'b' - направленное назад , 'p' - поперечное
+            {
+                if (tree.vertices.get(i).edg.get(j).type == 'n')
+                    MyWindow.Result.append(Integer.toString(tree.vertices.get(i).name) + "->" + Integer.toString(tree.vertices.get(i).edg.get(j).v.name) + "Неиспользованное");
+                if (tree.vertices.get(i).edg.get(j).type == 'd')
+                    MyWindow.Result.append(Integer.toString(tree.vertices.get(i).name) + "->" + Integer.toString(tree.vertices.get(i).edg.get(j).v.name) + "Древесное");
+                if (tree.vertices.get(i).edg.get(j).type == 'u')
+                    MyWindow.Result.append(Integer.toString(tree.vertices.get(i).name) + "->" + Integer.toString(tree.vertices.get(i).edg.get(j).v.name) + "Направленное вперед");
+                if (tree.vertices.get(i).edg.get(j).type == 'p')
+                    MyWindow.Result.append(Integer.toString(tree.vertices.get(i).name) + "->" + Integer.toString(tree.vertices.get(i).edg.get(j).v.name) + "Поперечное");
+                if (tree.vertices.get(i).edg.get(j).type == 'b')
+                    MyWindow.Result.append(Integer.toString(tree.vertices.get(i).name) + "->" + Integer.toString(tree.vertices.get(i).edg.get(j).v.name) + "Направленное назад");
+            }
         String str="Список отсортированных вершин: ";
         for(int i=0;i<tree.RTopSort.size();i++)
            str+=tree.RTopSort.get(tree.RTopSort.size()-i-1).name;
