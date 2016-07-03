@@ -9,6 +9,7 @@ import com.trolltech.qt.QSignalEmitter;
 import com.trolltech.qt.core.*;
 import com.trolltech.qt.gui.*;
 import java.util.Random;
+import java.math.*;
 import javafx.scene.transform.Transform;
 import sun.font.TrueTypeFont;
 import sun.misc.Signal;
@@ -471,6 +472,7 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
                 {
                     textBrowser.append(Integer.toString(save_tree.vertices.get(k).name));
                 }*/
+
                 Vertex vertex_from = null;
                 for (int k = 0; k < save_tree.vertices.size(); k++)
                     if (save_tree.vertices.get(k).name == from) {
@@ -519,7 +521,11 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
         if(i>0) return i;
         else return -i;
     }
-
+    private double abs(double i)
+    {
+        if(i>0) return i;
+        else return -i;
+    }
     public void generate_new_tree()
     {
         // int curr_ele
@@ -534,10 +540,35 @@ public class Ui_MainWindow implements com.trolltech.qt.QUiForm<QMainWindow>
                     save_tree.vertices.get(i).edg.get(j).type = 'n';
                 }
             }
+            // обычная случайная генерация:
             Random random_int = new Random();
-            for (int k = 1; k <= abs(generate_form.count_of_top.value()); k++) {
-                save_tree.addVertex(k);
+            if(!generate_form.round_painting.isChecked())
+            {
+                for (int k = 1; k <= abs(generate_form.count_of_top.value()); k++) {
+                    save_tree.addVertex(k);
+                }
+            }else {
+
+                // генерация по кругу:
+                double Radious = 60 * ((double) generate_form.count_of_top.value()) / (2 * 3.14); // чтобы параметр был равен кол-ву вершин(тогда расстояние между вершинами равно 1)
+
+
+                int Start = 200;
+                double x = 0;
+                double y = 0;
+                for (int k = 0; k < abs(generate_form.count_of_top.value()); k++) {
+                    x = Radious * Math.cos(Math.toRadians((k * 360) / generate_form.count_of_top.value()));
+                    y = Radious * Math.sin(Math.toRadians((k * 360) / generate_form.count_of_top.value()));
+                    save_tree.addVertex(Start + (int) x, Start + (int) y, k + 1);
+                    //textBrowser.append(k + ") " + x + " " + y);
+                    textBrowser.append(k + ") " + x + " " + y);
+                    textBrowser.append("Угол: " + (k * 180) / generate_form.count_of_top.value());
+
+                }
             }
+
+
+
             int count = 0;
             while (count < generate_form.count_of_edges.value()) {
                 int from = 1 + (abs(random_int.nextInt()) % (generate_form.count_of_top.value()));
