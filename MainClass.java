@@ -593,11 +593,11 @@ public class MainClass extends QMainWindow
         cur.color=Gray; //Красим вершину в серый
         repaint();
         Wait();
-        for (int i = 0; i<cur.edg.size(); i++)
+        for (int i = 0; i<cur.edg.size(); i++) // Проходим по всем ребрам идущим из вершины
         {
-            if (!(cur.edg.get(i).v.color==Black))
+            if (!(cur.edg.get(i).v.color==Black)) // Если ребро ведет не в черную вершину
             {
-                if(cur.edg.get(i).v.color==Gray)
+                if(cur.edg.get(i).v.color==Gray) // Если ребро ведет в уже серую вершины -> цикл
                 {
                     cur.edg.get(i).type='b';
                     cur.edg.get(i).used=true;
@@ -607,15 +607,15 @@ public class MainClass extends QMainWindow
                     if(MyWindow.visualisation)MyWindow.textBrowser.append("Сын  " + cur.edg.get(i).v.name + " является серой вершиной. ");
                     MyWindow.write_massage_to_file("Сын  " + cur.edg.get(i).v.name + " является серой вершиной. ", MyWindow.visualisation);
                     MyWindow.textBrowser.append("Ошибка1!");
-                    Ch=false;
+                    Ch=false;    // Ch=false - завершаем алгоритм
                     return;
                 }
                 cur.edg.get(i).used = true;// прошли по ребру
-                cur.edg.get(i).type='d';  // 'n'- не использованное , 'd' - древесное , 'u' - направленное вперед , 'b' - направленное назад , 'p' - поперечное
+                cur.edg.get(i).type='d';  // Ребро - древесное
                 if(MyWindow.visualisation)MyWindow.textBrowser.append("Переход от вершины "+ cur.name +" к её сыну " + cur.edg.get(i).v.name + ".");
                 MyWindow.write_massage_to_file("Переход от вершины "+ cur.name +" к её сыну " + cur.edg.get(i).v.name + ".", MyWindow.visualisation);
 
-                dfs1(cur.edg.get(i).v);//переходим к след. вершине
+                dfs1(cur.edg.get(i).v);//Запускаем алгоритм рекурсивно для следующей вершнины
                 repaint();
                 Wait();
             }
@@ -634,7 +634,7 @@ public class MainClass extends QMainWindow
         cur.color=Black;//Вышли из вершины - покрасили в черный
         repaint();
         Wait();
-        for(int i=0;i<tree.vertices.size();i++)
+        for(int i=0;i<tree.vertices.size();i++) //Проверим все ребра в графе, если есть ребро Белой->Черную - тогда это поперечные ребра
         {
             if(tree.vertices.get(i).color==White)
             {
@@ -651,15 +651,15 @@ public class MainClass extends QMainWindow
 
     void TopSort() //Топологическая сортировка
     {
-        Ch=true;
+        Ch=true;//В начале работы Ch=true - циклов нет
         tree.RTopSort.clear(); //Очистим список вершин
         int m=0; // m -номер вершины для которой будем вызывать поиск в глубину
         while(tree.RTopSort.size()<tree.vertices.size()) //пока все вершины не попали в нужый список
         {
             if((tree.vertices.get(m).color==White)) //Если вершина не пройдена
             {
-                dfs1(tree.vertices.get(m)); // запускаем поиск в глубину
-                if(!Ch) return;
+                dfs1(tree.vertices.get(m)); // запускаем поиск в глубину для неё
+                if(!Ch) return;// Если нашелся цикл, завершаем работу алгоритма
             }
             else m++;//иначе переходим к следуюещей
         }
