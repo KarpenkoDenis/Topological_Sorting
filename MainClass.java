@@ -622,10 +622,10 @@ public class MainClass extends QMainWindow
         }
         if(MyWindow.visualisation)MyWindow.textBrowser.append("Выходим из вершины "+ cur.name +". Красим её в черный.");
         MyWindow.write_massage_to_file("Выходим из вершины "+ cur.name +". Красим её в черный.", MyWindow.visualisation);
-        for(int j=0;j<cur.edg.size();j++) {
+        for(int j=0;j<cur.edg.size();j++) { // Проверяем все ребра из текущей вершины(из которой мы сейчас вышли)
             if (!cur.edg.get(j).used) {
-                if (cur.edg.get(j).v.color == Gray) cur.edg.get(j).type = 'b';
-                if (cur.edg.get(j).v.color == Black)
+                if (cur.edg.get(j).v.color == Gray) cur.edg.get(j).type = 'b';// Если ребро идет в серую вершину -> оно направлено назад
+                if (cur.edg.get(j).v.color == Black) // Если ребро идет в черную вершину -> оно направлено вперед
                 {
                     cur.edg.get(j).type = 'u';
                 }
