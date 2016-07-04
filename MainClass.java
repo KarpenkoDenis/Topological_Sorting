@@ -651,6 +651,8 @@ public class MainClass extends QMainWindow
 
     void TopSort() //Топологическая сортировка
     {
+        MyWindow.textBrowser.clear();
+        MyWindow.Result.clear();
         Ch=true;//В начале работы Ch=true - циклов нет
         tree.RTopSort.clear(); //Очистим список вершин
         int m=0; // m -номер вершины для которой будем вызывать поиск в глубину
