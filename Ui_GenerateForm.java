@@ -129,7 +129,6 @@ public class Ui_GenerateForm implements com.trolltech.qt.QUiForm<QWidget>
         retranslateUi(Form);
 
         //
-        round_painting.clicked.connect(this, "rebuild_text()");
         count_of_edges.valueChanged.connect(this, "setCountOfTop()");
         count_of_top.valueChanged.connect(this, "setCountOfEdges()");
         Cansel.clicked.connect(Form, "close()");
@@ -139,22 +138,9 @@ public class Ui_GenerateForm implements com.trolltech.qt.QUiForm<QWidget>
         
         Form.connectSlotsByName();
     } // setupUi
-    private void rebuild_text()
-    {
-        label_4.setText(com.trolltech.qt.core.QCoreApplication.translate("Form", "15", null));
-        label_7.setText(com.trolltech.qt.core.QCoreApplication.translate("Form", "15", null));
-        count_of_edges.setMaximum(15);
-        count_of_edges.setValue(10);
-        count_of_top.setMaximum(15);
-        count_of_top.setValue(10);
-    }
     private void setCountOfTop()
     {
-        if(  count_of_top.value() < count_of_edges.value())
-        {
-            count_of_top.setValue(count_of_edges.value());
-        }
-        if( count_of_top.value() < count_of_edges.value())
+        if( count_of_top.value() < count_of_edges.value() )
         {
             count_of_top.setValue(count_of_edges.value());
         }
